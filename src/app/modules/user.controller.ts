@@ -25,6 +25,7 @@ const createUser = async (req: Request, res: Response) => {
             error: {
                 code: 404,
                 message: 'Something went wrong while creating an User',
+                fullError: error,
             },
         });
     }

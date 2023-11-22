@@ -47,6 +47,7 @@ const userSchema = new Schema({
     userId: {
         type: Number,
         required: [true, 'User ID is required.'],
+        unique: true,
     },
     userName: {
         type: String,
