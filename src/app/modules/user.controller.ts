@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import config from '../config';
 import { User } from './user.model';
 import { userServices } from './user.services';
 import userValidationSchema from './user.validation';
@@ -96,10 +98,21 @@ const updateUserData = async (req: Request, res: Response) => {
         const { userID } = req.params;
         const { user: userData } = req.body;
 
+        // zod parsed data
+        const zodParsedData = userValidationSchema.parse(userData);
+
+        // hashing parsed password
+        if (zodParsedData.password) {
+            zodParsedData.password = await bcrypt.hash(
+                zodParsedData.password,
+                Number(config.bcrypt_salt_rounds),
+            );
+        }
+
         if (await User.isUserExists(userID)) {
             const result = await userServices.updateUserIntoDB(
                 userID,
-                userData,
+                zodParsedData,
             );
 
             const updatedUser =
