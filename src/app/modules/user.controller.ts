@@ -60,10 +60,10 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getSpecificUser = async (req: Request, res: Response) => {
     try {
-        const { userID } = req.params;
+        const { userId } = req.params;
 
-        if (await User.isUserExists(userID)) {
-            const result = await userServices.getSpecificUserFromDB(userID);
+        if (await User.isUserExists(userId)) {
+            const result = await userServices.getSpecificUserFromDB(userId);
 
             const { password: pwd, ...rest } = result!.toObject();
 
@@ -97,7 +97,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
 
 const updateUserData = async (req: Request, res: Response) => {
     try {
-        const { userID } = req.params;
+        const { userId } = req.params;
         const { user: userData } = req.body;
 
         // zod parsed data
@@ -111,14 +111,14 @@ const updateUserData = async (req: Request, res: Response) => {
             );
         }
 
-        if (await User.isUserExists(userID)) {
+        if (await User.isUserExists(userId)) {
             const result = await userServices.updateUserIntoDB(
-                userID,
+                userId,
                 zodParsedData,
             );
 
             const updatedUser =
-                await userServices.getSpecificUserFromDB(userID);
+                await userServices.getSpecificUserFromDB(userId);
 
             const { password: pwd, ...rest } = updatedUser!.toObject();
 
@@ -152,10 +152,10 @@ const updateUserData = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
     try {
-        const { userID } = req.params;
+        const { userId } = req.params;
 
-        if (await User.isUserExists(userID)) {
-            const result = await userServices.deleteUserFromDB(userID);
+        if (await User.isUserExists(userId)) {
+            const result = await userServices.deleteUserFromDB(userId);
 
             res.status(200).json({
                 success: true,
@@ -187,14 +187,14 @@ const deleteUser = async (req: Request, res: Response) => {
 
 const addProductIntoOrder = async (req: Request, res: Response) => {
     try {
-        const { userID } = req.params;
+        const { userId } = req.params;
         const { product } = req.body;
 
         const parsedOrderValidationData = ordersValidationSchema.parse(product);
 
-        if (await User.isUserExists(userID)) {
+        if (await User.isUserExists(userId)) {
             const result = await userServices.addProductIntoOrderDB(
-                userID,
+                userId,
                 parsedOrderValidationData,
             );
 
@@ -226,6 +226,30 @@ const addProductIntoOrder = async (req: Request, res: Response) => {
     }
 };
 
+const allOrdersOfUser = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+
+        const result = await userServices.allOrdersOfUserFromDB(userId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Order fetched successfully!',
+            data: result,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong while fetching order',
+            error: {
+                code: 500,
+                message: 'Something went wrong while fetching order',
+                fullError: error,
+            },
+        });
+    }
+};
+
 export const userControllers = {
     createUser,
     getAllUsers,
@@ -233,4 +257,5 @@ export const userControllers = {
     updateUserData,
     deleteUser,
     addProductIntoOrder,
+    allOrdersOfUser,
 };

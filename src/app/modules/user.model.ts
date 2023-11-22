@@ -105,7 +105,6 @@ const userSchema = new Schema<IUser, UserModel>({
     },
     orders: {
         type: ordersSchema,
-        required: false,
     },
 });
 
