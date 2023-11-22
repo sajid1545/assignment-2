@@ -10,13 +10,22 @@ const createUser = async (req: Request, res: Response) => {
         const zodParsedData = userValidationSchema.parse(userData);
 
         const result = await userServices.createUserIntoDB(zodParsedData);
+
+        const { password: pwd, ...rest } = result.toObject();
+
+        res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            data: rest,
+        });
     } catch (error: any) {
         res.status(500).json({
             success: false,
-            message: 'User not found',
+            message: 'Something went wrong while creating an User',
             error: {
-                code: error.code,
-                message: error.message,
+                code: 404,
+                message: 'Something went wrong while creating an User',
+                err: error,
             },
         });
     }

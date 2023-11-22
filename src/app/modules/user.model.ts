@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
+import config from '../config';
 
 const fullNameSchema = new Schema({
     firstName: {
@@ -82,6 +84,14 @@ const userSchema = new Schema({
         type: ordersSchema,
         required: false,
     },
+});
+
+userSchema.pre('save', async function (next) {
+    this.password = await bcrypt.hash(
+        this.password,
+        Number(config.bcrypt_salt_rounds),
+    );
+    next();
 });
 
 export const User = model('User', userSchema);
