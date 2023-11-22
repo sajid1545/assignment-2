@@ -4,7 +4,7 @@ import config from '../config';
 import {
     IAddress,
     IFullName,
-    IOrders,
+    IOrder,
     IUser,
     UserModel,
 } from './user.interface';
@@ -45,7 +45,7 @@ const addressSchema = new Schema<IAddress>(
     },
 );
 
-const ordersSchema = new Schema<IOrders>(
+const ordersSchema = new Schema<IOrder>(
     {
         productName: {
             type: String,

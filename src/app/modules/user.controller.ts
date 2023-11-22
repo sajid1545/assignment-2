@@ -3,7 +3,9 @@ import { Request, Response } from 'express';
 import config from '../config';
 import { User } from './user.model';
 import { userServices } from './user.services';
-import userValidationSchema from './user.validation';
+import userValidationSchema, {
+    ordersValidationSchema,
+} from './user.validation';
 
 const createUser = async (req: Request, res: Response) => {
     try {
@@ -73,7 +75,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
         } else {
             res.status(404).json({
                 success: false,
-                message: 'User not found',
+                message: 'Something went wrong while getting specific User',
                 error: {
                     code: 404,
                     description: 'User not found!',
@@ -128,7 +130,7 @@ const updateUserData = async (req: Request, res: Response) => {
         } else {
             res.status(404).json({
                 success: false,
-                message: 'User not found',
+                message: 'Something went wrong while updating User',
                 error: {
                     code: 404,
                     description: 'User not found!',
@@ -163,7 +165,7 @@ const deleteUser = async (req: Request, res: Response) => {
         } else {
             res.status(404).json({
                 success: false,
-                message: 'User not found',
+                message: 'Something went wrong while deleting User',
                 error: {
                     code: 404,
                     description: 'User not found!',
@@ -183,10 +185,52 @@ const deleteUser = async (req: Request, res: Response) => {
     }
 };
 
+const addProductIntoOrder = async (req: Request, res: Response) => {
+    try {
+        const { userID } = req.params;
+        const { product } = req.body;
+
+        const parsedOrderValidationData = ordersValidationSchema.parse(product);
+
+        if (await User.isUserExists(userID)) {
+            const result = await userServices.addProductIntoOrderDB(
+                userID,
+                parsedOrderValidationData,
+            );
+
+            res.status(200).json({
+                success: true,
+                message: 'Order created successfully!',
+                data: null,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Something went wrong while adding product into order',
+                error: {
+                    code: 404,
+                    description: 'User not found',
+                },
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong while adding product into order',
+            error: {
+                code: 500,
+                message: 'Something went wrong while adding product into order',
+                fullError: error,
+            },
+        });
+    }
+};
+
 export const userControllers = {
     createUser,
     getAllUsers,
     getSpecificUser,
     updateUserData,
     deleteUser,
+    addProductIntoOrder,
 };

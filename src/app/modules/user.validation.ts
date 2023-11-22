@@ -28,7 +28,7 @@ const addressValidationSchema = z.object({
     }),
 });
 
-const ordersValidationSchema = z.object({
+export const ordersValidationSchema = z.object({
     productName: z.string({
         invalid_type_error: 'Product name must be a string.',
         required_error: 'Product name is required.',

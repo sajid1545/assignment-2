@@ -11,7 +11,7 @@ export interface IAddress {
     country: string;
 }
 
-export interface IOrders {
+export interface IOrder {
     productName: string;
     price: number;
     quantity: number;
@@ -27,7 +27,7 @@ export interface IUser {
     isActive: boolean;
     hobbies: string[];
     address: IAddress;
-    orders?: IOrders[];
+    orders?: IOrder[];
 }
 
 export interface UserModel extends Model<IUser> {
