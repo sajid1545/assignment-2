@@ -29,7 +29,10 @@ const addressValidationSchema = z.object({
 });
 
 const ordersValidationSchema = z.object({
-    productName: z.string().min(1, 'Product name is required.'),
+    productName: z.string({
+        invalid_type_error: 'Product name must be a string.',
+        required_error: 'Product name is required.',
+    }),
     price: z.number({
         invalid_type_error: 'Price must be a number.',
         required_error: 'Price is required.',
@@ -68,7 +71,7 @@ const userValidationSchema = z.object({
     }),
     hobbies: z.string().array().min(1, 'Hobbies are required.'),
     address: addressValidationSchema,
-    orders: ordersValidationSchema,
+    orders: z.array(ordersValidationSchema).optional(),
 });
 
 export default userValidationSchema;

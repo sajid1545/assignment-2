@@ -72,7 +72,7 @@ const userSchema = new Schema({
     },
     hobbies: {
         type: [String],
-        default: [],
+        required: [true, 'Hobbies are required.'],
     },
     address: {
         type: addressSchema,
@@ -80,6 +80,7 @@ const userSchema = new Schema({
     },
     orders: {
         type: ordersSchema,
+        required: false,
     },
 });
 
