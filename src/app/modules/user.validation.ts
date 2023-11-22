@@ -48,7 +48,7 @@ const userValidationSchema = z.object({
         required_error: 'User ID is required.',
         invalid_type_error: 'User ID must be a number.',
     }),
-    userName: z.string({
+    username: z.string({
         required_error: 'User name is required.',
         invalid_type_error: 'User name must be a string.',
     }),
@@ -61,10 +61,14 @@ const userValidationSchema = z.object({
         required_error: 'Age is required.',
         invalid_type_error: 'Age must be a number.',
     }),
-    email: z.string({
-        required_error: 'Email is required.',
-        invalid_type_error: 'Email must be a string.',
-    }),
+    email: z
+        .string({
+            required_error: 'Email is required.',
+            invalid_type_error: 'Email must be a string.',
+        })
+        .email({
+            message: 'Invalid email address.',
+        }),
     isActive: z.boolean({
         required_error: 'Active status is required.',
         invalid_type_error: 'Active status must be a boolean.',

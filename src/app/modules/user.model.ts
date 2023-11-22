@@ -49,7 +49,7 @@ const userSchema = new Schema({
         required: [true, 'User ID is required.'],
         unique: true,
     },
-    userName: {
+    username: {
         type: String,
         required: [true, 'User name is required.'],
     },
