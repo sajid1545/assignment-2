@@ -24,7 +24,7 @@ const createUser = async (req: Request, res: Response) => {
             success: false,
             message: 'Something went wrong while creating an User',
             error: {
-                code: 404,
+                code: 500,
                 message: 'Something went wrong while creating an User',
                 fullError: error,
             },
@@ -46,7 +46,7 @@ const getAllUsers = async (req: Request, res: Response) => {
             success: false,
             message: 'Something went wrong while getting all Users',
             error: {
-                code: 404,
+                code: 500,
                 message: 'Something went wrong while getting all Users',
                 fullError: error,
             },
@@ -83,8 +83,52 @@ const getSpecificUser = async (req: Request, res: Response) => {
             success: false,
             message: 'Something went wrong while getting specific User',
             error: {
-                code: 404,
+                code: 500,
                 message: 'Something went wrong while getting specific User',
+                fullError: error,
+            },
+        });
+    }
+};
+
+const updateUserData = async (req: Request, res: Response) => {
+    try {
+        const { userID } = req.params;
+        const { user: userData } = req.body;
+
+        if (await User.isUserExists(userID)) {
+            const result = await userServices.updateUserIntoDB(
+                userID,
+                userData,
+            );
+
+            const updatedUser =
+                await userServices.getSpecificUserFromDB(userID);
+
+            const { password: pwd, ...rest } = updatedUser!.toObject();
+
+            res.status(200).json({
+                success: true,
+                message: 'User updated successfully!',
+                data: rest,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'User not found',
+                error: {
+                    code: 404,
+                    description: 'User not found!',
+                },
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong while updating User',
+            error: {
+                code: 500,
+                message: 'Something went wrong while updating User',
                 fullError: error,
             },
         });
@@ -95,4 +139,5 @@ export const userControllers = {
     createUser,
     getAllUsers,
     getSpecificUser,
+    updateUserData,
 };

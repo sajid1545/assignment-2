@@ -9,46 +9,61 @@ import {
     UserModel,
 } from './user.interface';
 
-const fullNameSchema = new Schema<IFullName>({
-    firstName: {
-        type: String,
-        required: [true, 'First name is required.'],
+const fullNameSchema = new Schema<IFullName>(
+    {
+        firstName: {
+            type: String,
+            required: [true, 'First name is required.'],
+        },
+        lastName: {
+            type: String,
+            required: [true, 'Last name is required.'],
+        },
     },
-    lastName: {
-        type: String,
-        required: [true, 'Last name is required.'],
+    {
+        _id: false,
     },
-});
+);
 
-const addressSchema = new Schema<IAddress>({
-    street: {
-        type: String,
-        required: [true, 'Street is required.'],
+const addressSchema = new Schema<IAddress>(
+    {
+        street: {
+            type: String,
+            required: [true, 'Street is required.'],
+        },
+        city: {
+            type: String,
+            required: [true, 'City is required.'],
+        },
+        country: {
+            type: String,
+            required: [true, 'Country is required.'],
+        },
     },
-    city: {
-        type: String,
-        required: [true, 'City is required.'],
+    {
+        _id: false,
     },
-    country: {
-        type: String,
-        required: [true, 'Country is required.'],
-    },
-});
+);
 
-const ordersSchema = new Schema<IOrders>({
-    productName: {
-        type: String,
-        required: [true, 'Product name is required.'],
+const ordersSchema = new Schema<IOrders>(
+    {
+        productName: {
+            type: String,
+            required: [true, 'Product name is required.'],
+        },
+        price: {
+            type: Number,
+            required: [true, 'Price is required.'],
+        },
+        quantity: {
+            type: Number,
+            required: [true, 'Quantity is required.'],
+        },
     },
-    price: {
-        type: Number,
-        required: [true, 'Price is required.'],
+    {
+        _id: false,
     },
-    quantity: {
-        type: Number,
-        required: [true, 'Quantity is required.'],
-    },
-});
+);
 
 const userSchema = new Schema<IUser, UserModel>({
     userId: {

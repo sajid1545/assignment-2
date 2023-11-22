@@ -13,17 +13,10 @@ const getAllUsersFromDB = async () => {
             $project: {
                 _id: 0,
                 username: 1,
-                fullName: {
-                    firstName: 1,
-                    lastName: 1,
-                },
+                fullName: 1,
                 age: 1,
                 email: 1,
-                address: {
-                    street: 1,
-                    city: 1,
-                    country: 1,
-                },
+                address: 1,
             },
         },
     ]);
@@ -35,9 +28,14 @@ const getSpecificUserFromDB = async (id: string) => {
     const result = await User.findOne({ userId: id });
     return result;
 };
+const updateUserIntoDB = async (id: string, userData: IUser) => {
+    const result = await User.updateOne({ userId: id }, userData);
+    return result;
+};
 
 export const userServices = {
     createUserIntoDB,
     getAllUsersFromDB,
     getSpecificUserFromDB,
+    updateUserIntoDB,
 };
