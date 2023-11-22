@@ -68,7 +68,7 @@ const userSchema = new Schema({
     },
     isActive: {
         type: Boolean,
-        default: true,
+        required: [true, 'Active status is required.'],
     },
     hobbies: {
         type: [String],
