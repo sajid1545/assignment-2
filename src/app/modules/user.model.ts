@@ -1,8 +1,15 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../config';
+import {
+    IAddress,
+    IFullName,
+    IOrders,
+    IUser,
+    UserModel,
+} from './user.interface';
 
-const fullNameSchema = new Schema({
+const fullNameSchema = new Schema<IFullName>({
     firstName: {
         type: String,
         required: [true, 'First name is required.'],
@@ -13,7 +20,7 @@ const fullNameSchema = new Schema({
     },
 });
 
-const addressSchema = new Schema({
+const addressSchema = new Schema<IAddress>({
     street: {
         type: String,
         required: [true, 'Street is required.'],
@@ -28,7 +35,7 @@ const addressSchema = new Schema({
     },
 });
 
-const ordersSchema = new Schema({
+const ordersSchema = new Schema<IOrders>({
     productName: {
         type: String,
         required: [true, 'Product name is required.'],
@@ -43,7 +50,7 @@ const ordersSchema = new Schema({
     },
 });
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser, UserModel>({
     userId: {
         type: Number,
         required: [true, 'User ID is required.'],
@@ -87,6 +94,7 @@ const userSchema = new Schema({
     },
 });
 
+// hashing the password before saving into DB
 userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(
         this.password,
@@ -95,4 +103,9 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-export const User = model('User', userSchema);
+userSchema.statics.isUserExists = async function (id: string) {
+    const result = await User.findOne({ userId: id });
+    return result;
+};
+
+export const User = model<IUser, UserModel>('User', userSchema);
