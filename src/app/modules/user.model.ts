@@ -90,6 +90,7 @@ const userSchema = new Schema<IUser, UserModel>({
     email: {
         type: String,
         required: [true, 'Email is required.'],
+        unique: true,
     },
     isActive: {
         type: Boolean,

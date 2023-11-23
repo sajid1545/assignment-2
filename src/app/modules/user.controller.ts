@@ -16,7 +16,11 @@ const createUser = async (req: Request, res: Response) => {
 
         const result = await userServices.createUserIntoDB(zodParsedData);
 
-        const { password: pwd, ...rest } = result.toObject();
+        const {
+            password: pwd,
+            orders: emptyOrders,
+            ...rest
+        } = result.toObject();
 
         res.status(201).json({
             success: true,
