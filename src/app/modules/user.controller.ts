@@ -229,20 +229,57 @@ const addProductIntoOrder = async (req: Request, res: Response) => {
 const allOrdersOfUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        const result = await userServices.getProductsFromOrder(userId);
+
+        if (await User.isUserExists(userId)) {
+            const result = await userServices.getProductsFromOrder(userId);
+
+            res.status(200).json({
+                success: true,
+                message: 'Orders fetched successfully!',
+                data: result,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Something went wrong while fetching orders',
+                error: {
+                    code: 404,
+                    description: 'User not found',
+                },
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Something went wrong while fetching orders',
+            error: {
+                code: 500,
+                message: 'Something went wrong while fetching orders',
+                fullError: error,
+            },
+        });
+    }
+};
+
+const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params;
+
+        const result =
+            await userServices.totalProductPriceOfSpecificUserInDB(userId);
 
         res.status(200).json({
             success: true,
-            message: 'Orders fetched successfully!',
+            message: 'Total price calculated successfully!',
             data: result,
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Something went wrong while adding product into order',
+            message: 'Something went wrong while fetching orders',
             error: {
                 code: 500,
-                message: 'Something went wrong while adding product into order',
+                message: 'Something went wrong while calculating order prices',
                 fullError: error,
             },
         });
@@ -257,4 +294,5 @@ export const userControllers = {
     deleteUser,
     addProductIntoOrder,
     allOrdersOfUser,
+    totalProductPriceOfSpecificUser,
 };
