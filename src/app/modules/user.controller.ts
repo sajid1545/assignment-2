@@ -264,20 +264,30 @@ const allOrdersOfUser = async (req: Request, res: Response) => {
 const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        console.log(userId);
 
-        const result =
-            await userServices.totalProductPriceOfSpecificUserInDB(userId);
+        if (await User.isUserExists(userId)) {
+            const result =
+                await userServices.totalProductPriceOfSpecificUserInDB(userId);
 
-        res.status(200).json({
-            success: true,
-            message: 'Total price calculated successfully!',
-            data: result,
-        });
+            res.status(200).json({
+                success: true,
+                message: 'Total price calculated successfully!',
+                data: result,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Something went wrong while calculating order prices',
+                error: {
+                    code: 404,
+                    description: 'User not found',
+                },
+            });
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Something went wrong while fetching orders',
+            message: 'Something went wrong while calculating order prices',
             error: {
                 code: 500,
                 message: 'Something went wrong while calculating order prices',
