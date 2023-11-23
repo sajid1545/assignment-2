@@ -263,11 +263,13 @@ const allOrdersOfUser = async (req: Request, res: Response) => {
 
 const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params;
+        const userId = req.params.userId;
+
+        const numId = Number(userId);
 
         if (await User.isUserExists(userId)) {
             const result =
-                await userServices.totalProductPriceOfSpecificUserInDB(userId);
+                await userServices.totalProductPriceOfSpecificUserInDB(numId);
 
             res.status(200).json({
                 success: true,

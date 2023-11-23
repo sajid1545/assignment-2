@@ -53,7 +53,7 @@ const getProductsFromOrder = async (id: string) => {
     return result;
 };
 
-const totalProductPriceOfSpecificUserInDB = async (id: string) => {
+const totalProductPriceOfSpecificUserInDB = async (id: number) => {
     const result = await User.aggregate([
         {
             $match: {
