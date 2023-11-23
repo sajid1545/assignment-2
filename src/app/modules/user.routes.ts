@@ -11,11 +11,10 @@ router.put('/:userId', userControllers.updateUserData);
 router.delete('/:userId', userControllers.deleteUser);
 
 router.get('/:userId/orders', userControllers.allOrdersOfUser);
-router.get('/:userId/orders', userControllers.allOrdersOfUser);
-router.put('/:userId/orders', userControllers.addProductIntoOrder);
 router.get(
     '/:userId/orders/total-price',
     userControllers.totalProductPriceOfSpecificUser,
 );
+router.put('/:userId/orders', userControllers.addProductIntoOrder);
 
 export const userRoutes = router;
