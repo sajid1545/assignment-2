@@ -48,19 +48,8 @@ const addProductIntoOrderDB = async (id: string, orderData: IOrder) => {
     return result;
 };
 
-const allOrdersOfUserFromDB = async (id: string) => {
-    // const result = await User.aggregate([
-    //     { $match: { userId: id } },
-    //     {
-    //         $project: {
-    //             _id: 0,
-    //             orders: 1,
-    //         },
-    //     },
-    // ]);
-    // return result;
-    const result = await User.findOne({ userId: id });
-
+const getProductsFromOrder = async (id: string) => {
+    const result = await User.findOne({ userId: id }, { _id: 0, orders: 1 });
     return result;
 };
 
@@ -71,5 +60,5 @@ export const userServices = {
     updateUserIntoDB,
     deleteUserFromDB,
     addProductIntoOrderDB,
-    allOrdersOfUserFromDB,
+    getProductsFromOrder,
 };

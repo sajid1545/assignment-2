@@ -5,9 +5,11 @@ const router = express.Router();
 
 router.get('/', userControllers.getAllUsers);
 router.post('/', userControllers.createUser);
+
 router.get('/:userId', userControllers.getSpecificUser);
 router.put('/:userId', userControllers.updateUserData);
 router.delete('/:userId', userControllers.deleteUser);
+
 router.get('/:userId/orders', userControllers.allOrdersOfUser);
 router.put('/:userId/orders', userControllers.addProductIntoOrder);
 

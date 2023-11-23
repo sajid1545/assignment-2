@@ -229,21 +229,20 @@ const addProductIntoOrder = async (req: Request, res: Response) => {
 const allOrdersOfUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-
-        const result = await userServices.allOrdersOfUserFromDB(userId);
+        const result = await userServices.getProductsFromOrder(userId);
 
         res.status(200).json({
             success: true,
-            message: 'Order fetched successfully!',
+            message: 'Orders fetched successfully!',
             data: result,
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Something went wrong while fetching order',
+            message: 'Something went wrong while adding product into order',
             error: {
                 code: 500,
-                message: 'Something went wrong while fetching order',
+                message: 'Something went wrong while adding product into order',
                 fullError: error,
             },
         });
