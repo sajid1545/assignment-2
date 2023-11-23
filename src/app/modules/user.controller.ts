@@ -264,6 +264,7 @@ const allOrdersOfUser = async (req: Request, res: Response) => {
 const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
+        console.log(userId);
 
         const result =
             await userServices.totalProductPriceOfSpecificUserInDB(userId);
