@@ -69,13 +69,27 @@ const getSpecificUser = async (req: Request, res: Response) => {
         if (await User.isUserExists(userId)) {
             const result = await userServices.getSpecificUserFromDB(userId);
 
-            const { password: pwd, ...rest } = result!.toObject();
+            if (!result?.orders?.length) {
+                const {
+                    password: pwd,
+                    orders: emptyOrders,
+                    ...rest
+                } = result!.toObject();
 
-            res.status(200).json({
-                success: true,
-                message: 'User fetched successfully!',
-                data: rest,
-            });
+                res.status(200).json({
+                    success: true,
+                    message: 'User fetched successfully!',
+                    data: rest,
+                });
+            } else {
+                const { password: pwd, ...rest } = result!.toObject();
+
+                res.status(200).json({
+                    success: true,
+                    message: 'User fetched successfully!',
+                    data: rest,
+                });
+            }
         } else {
             res.status(404).json({
                 success: false,
