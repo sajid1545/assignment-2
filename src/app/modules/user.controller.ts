@@ -4,6 +4,7 @@ import config from '../config';
 import { User } from './user.model';
 import { userServices } from './user.services';
 import userValidationSchema, {
+    optionalUserValidationSchema,
     ordersValidationSchema,
 } from './user.validation';
 
@@ -116,7 +117,7 @@ const updateUserData = async (req: Request, res: Response) => {
         const userData = req.body;
 
         // zod parsed data
-        const zodParsedData = userValidationSchema.parse(userData);
+        const zodParsedData = optionalUserValidationSchema.parse(userData);
 
         // hashing parsed password
         if (zodParsedData.password) {

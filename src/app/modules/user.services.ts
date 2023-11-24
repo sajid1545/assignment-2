@@ -29,7 +29,7 @@ const getSpecificUserFromDB = async (id: string) => {
     const result = await User.findOne({ userId: id });
     return result;
 };
-const updateUserIntoDB = async (id: string, userData: IUser) => {
+const updateUserIntoDB = async (id: string, userData: Partial<IUser>) => {
     const result = await User.updateOne(
         { userId: id },
         {

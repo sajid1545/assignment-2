@@ -77,5 +77,50 @@ const userValidationSchema = z.object({
     address: addressValidationSchema,
     orders: z.array(ordersValidationSchema).optional(),
 });
+export const optionalUserValidationSchema = z.object({
+    userId: z
+        .number({
+            required_error: 'User ID is required.',
+            invalid_type_error: 'User ID must be a number.',
+        })
+        .optional(),
+    username: z
+        .string({
+            required_error: 'User name is required.',
+            invalid_type_error: 'User name must be a string.',
+        })
+        .optional(),
+    password: z
+        .string({
+            required_error: 'Password is required',
+            invalid_type_error: 'Password must be a string',
+        })
+        .optional(),
+    fullName: fullNameValidationSchema.optional(),
+    age: z
+        .number({
+            required_error: 'Age is required.',
+            invalid_type_error: 'Age must be a number.',
+        })
+        .optional(),
+    email: z
+        .string({
+            required_error: 'Email is required.',
+            invalid_type_error: 'Email must be a string.',
+        })
+        .email({
+            message: 'Invalid email address.',
+        })
+        .optional(),
+    isActive: z
+        .boolean({
+            required_error: 'Active status is required.',
+            invalid_type_error: 'Active status must be a boolean.',
+        })
+        .optional(),
+    hobbies: z.string().array().min(1, 'Hobbies are required.').optional(),
+    address: addressValidationSchema.optional(),
+    orders: z.array(ordersValidationSchema).optional(),
+});
 
 export default userValidationSchema;
