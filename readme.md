@@ -4,6 +4,9 @@
 ```bash
 git clone https://github.com/sajid1545/assignment-2.git
 ```
+```bash
+cd .\assignment-2\
+```
 
 # 2. Install the dependencies
 
@@ -11,7 +14,7 @@ git clone https://github.com/sajid1545/assignment-2.git
 npm install
 ```
 
-# 3. Add environment variables
+# 3. Create a file named `.env` and then Add environment variables
 
 ```bash
 NODE_ENV = development
