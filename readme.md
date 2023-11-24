@@ -1,6 +1,9 @@
 # Crud App using Express
 
-# 1. In order to run the application locally clone the repository form the link given below https://github.com/sajid1545/assignment-2
+# 1. In order to run the application locally download the repository form the link given below https://github.com/sajid1545/assignment-2 or clone it 
+```bash
+git clone https://github.com/sajid1545/assignment-2.git
+```
 
 # 2. Install the dependencies
 
