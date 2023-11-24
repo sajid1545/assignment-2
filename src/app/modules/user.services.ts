@@ -57,17 +57,17 @@ const totalProductPriceOfSpecificUserInDB = async (id: number) => {
     const result = await User.aggregate([
         {
             $match: {
-                userId: id,
+                userId: id, // get user with given id
             },
         },
         {
-            $unwind: '$orders',
+            $unwind: '$orders', // unwind the orders array
         },
         {
             $group: {
                 _id: null,
                 totalPrice: {
-                    $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+                    $sum: { $multiply: ['$orders.price', '$orders.quantity'] }, // calculation the total price ( price * quantity )
                 },
             },
         },

@@ -22,7 +22,7 @@ const createUser = async (req: Request, res: Response) => {
             ...rest
         } = result.toObject();
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: 'User created successfully',
             data: rest,
@@ -33,8 +33,7 @@ const createUser = async (req: Request, res: Response) => {
             message: 'Something went wrong while creating an User',
             error: {
                 code: 500,
-                message: 'Something went wrong while creating an User',
-                fullError: error,
+                description: 'Something went wrong while creating an User',
             },
         });
     }
@@ -55,8 +54,7 @@ const getAllUsers = async (req: Request, res: Response) => {
             message: 'Something went wrong while getting all Users',
             error: {
                 code: 500,
-                message: 'Something went wrong while getting all Users',
-                fullError: error,
+                description: 'Something went wrong while getting all Users',
             },
         });
     }
@@ -106,8 +104,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
             message: 'Something went wrong while getting specific User',
             error: {
                 code: 500,
-                message: 'Something went wrong while getting specific User',
-                fullError: error,
+                description: 'Something went wrong while getting specific User',
             },
         });
     }
@@ -161,8 +158,7 @@ const updateUserData = async (req: Request, res: Response) => {
             message: 'Something went wrong while updating User',
             error: {
                 code: 500,
-                message: 'Something went wrong while updating User',
-                fullError: error,
+                description: 'Something went wrong while updating User',
             },
         });
     }
@@ -196,8 +192,7 @@ const deleteUser = async (req: Request, res: Response) => {
             message: 'Something went wrong while deleting User',
             error: {
                 code: 500,
-                message: 'Something went wrong while deleting User',
-                fullError: error,
+                description: 'Something went wrong while deleting User',
             },
         });
     }
@@ -237,8 +232,8 @@ const addProductIntoOrder = async (req: Request, res: Response) => {
             message: 'Something went wrong while adding product into order',
             error: {
                 code: 500,
-                message: 'Something went wrong while adding product into order',
-                fullError: error,
+                description:
+                    'Something went wrong while adding product into order',
             },
         });
     }
@@ -272,8 +267,7 @@ const allOrdersOfUser = async (req: Request, res: Response) => {
             message: 'Something went wrong while fetching orders',
             error: {
                 code: 500,
-                message: 'Something went wrong while fetching orders',
-                fullError: error,
+                description: 'Something went wrong while fetching orders',
             },
         });
     }
@@ -310,8 +304,8 @@ const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
             message: 'Something went wrong while calculating order prices',
             error: {
                 code: 500,
-                message: 'Something went wrong while calculating order prices',
-                fullError: error,
+                description:
+                    'Something went wrong while calculating order prices',
             },
         });
     }
