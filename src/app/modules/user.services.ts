@@ -30,7 +30,15 @@ const getSpecificUserFromDB = async (id: string) => {
     return result;
 };
 const updateUserIntoDB = async (id: string, userData: IUser) => {
-    const result = await User.updateOne({ userId: id }, userData);
+    const result = await User.updateOne(
+        { userId: id },
+        {
+            $set: userData,
+        },
+        {
+            runValidators: true,
+        },
+    );
     return result;
 };
 
@@ -80,9 +88,6 @@ const totalProductPriceOfSpecificUserInDB = async (id: number) => {
     ]);
 
     return result;
-
-    // const result = await User.findOne({ userId: id });
-    // return result;
 };
 
 export const userServices = {

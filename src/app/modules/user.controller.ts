@@ -9,7 +9,7 @@ import userValidationSchema, {
 
 const createUser = async (req: Request, res: Response) => {
     try {
-        const { user: userData } = req.body;
+        const userData = req.body;
 
         // zod parsed data
         const zodParsedData = userValidationSchema.parse(userData);
@@ -113,7 +113,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
 const updateUserData = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params;
-        const { user: userData } = req.body;
+        const userData = req.body;
 
         // zod parsed data
         const zodParsedData = userValidationSchema.parse(userData);
@@ -135,13 +135,26 @@ const updateUserData = async (req: Request, res: Response) => {
             const updatedUser =
                 await userServices.getSpecificUserFromDB(userId);
 
-            const { password: pwd, ...rest } = updatedUser!.toObject();
+            if (!updatedUser?.orders?.length) {
+                const {
+                    password: pwd,
+                    orders: emptyOrders,
+                    ...rest
+                } = updatedUser!.toObject();
+                res.status(200).json({
+                    success: true,
+                    message: 'User updated successfully!',
+                    data: rest,
+                });
+            } else {
+                const { password: pwd, ...rest } = updatedUser!.toObject();
 
-            res.status(200).json({
-                success: true,
-                message: 'User updated successfully!',
-                data: rest,
-            });
+                res.status(200).json({
+                    success: true,
+                    message: 'User updated successfully!',
+                    data: rest,
+                });
+            }
         } else {
             res.status(404).json({
                 success: false,
