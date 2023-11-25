@@ -1,6 +1,12 @@
 # Crud App using Express
 
-# 1. In order to run the application locally clone the repository form the link given below https://github.com/sajid1545/assignment-2
+# 1. In order to run the application locally download the repository form the link given below https://github.com/sajid1545/assignment-2 or clone it 
+```bash
+git clone https://github.com/sajid1545/assignment-2.git
+```
+```bash
+cd .\assignment-2\
+```
 
 # 2. Install the dependencies
 
@@ -8,7 +14,7 @@
 npm install
 ```
 
-# 3. Add environment variables
+# 3. Create a file named `.env` and then Add environment variables
 
 ```bash
 NODE_ENV = development
