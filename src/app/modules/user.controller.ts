@@ -260,11 +260,19 @@ const allOrdersOfUser = async (req: Request, res: Response) => {
         if (await User.isUserExists(userId)) {
             const result = await userServices.getProductsFromOrder(userId);
 
-            res.status(200).json({
-                success: true,
-                message: 'Orders fetched successfully!',
-                data: result,
-            });
+            if (!result?.orders?.length) {
+                res.status(200).json({
+                    success: true,
+                    message: 'Orders fetched successfully!',
+                    data: { orders: 0 },
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'Orders fetched successfully!',
+                    data: result,
+                });
+            }
         } else {
             res.status(404).json({
                 success: false,
