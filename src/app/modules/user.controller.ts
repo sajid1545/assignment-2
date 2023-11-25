@@ -301,15 +301,25 @@ const totalProductPriceOfSpecificUser = async (req: Request, res: Response) => {
 
         const numId = Number(userId);
 
+        const ordersAvailable = await userServices.getProductsFromOrder(userId);
+
         if (await User.isUserExists(userId)) {
             const result =
                 await userServices.totalProductPriceOfSpecificUserInDB(numId);
 
-            res.status(200).json({
-                success: true,
-                message: 'Total price calculated successfully!',
-                data: result,
-            });
+            if (!ordersAvailable?.orders?.length) {
+                res.status(200).json({
+                    success: true,
+                    message: 'No orders to calculate total price',
+                    data: { orders: 0 },
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'Total price calculated successfully!',
+                    data: result,
+                });
+            }
         } else {
             res.status(404).json({
                 success: false,
